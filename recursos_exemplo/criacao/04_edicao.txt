@@ -1,0 +1,5 @@
+Data declarada: 2026-03-05
+Edição no cenário: personagem acrescentada à base em 03_versao_personagem.png.
+Composição e texto acrescentados em 04_cartaz_final.png.
+Projeto editável: fontes/cartaz_editavel.svg, com fundo, personagem e texto em grupos separados.
+Confronte o registro com as versões; mudanças visuais não identificam quem as realizou.

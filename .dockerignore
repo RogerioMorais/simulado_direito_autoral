@@ -1,0 +1,12 @@
+cache/
+resultados/
+__pycache__/
+**/__pycache__/
+*.pyc
+.git/
+.venv/
+venv/
+.env
+.env.*
+.vscode/
+.idea/

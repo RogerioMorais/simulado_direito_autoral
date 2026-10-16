@@ -1,0 +1,5 @@
+Data declarada: 2026-03-01
+SIMULACAO DIDATICA: todos os arquivos foram produzidos por codigo.
+Conceito e narrativa atribuídos à pessoa no cenário: Lia retorna ao porto levando uma carta.
+Texto escrito no cenário: O CAMINHO DE LIA / Uma carta. Uma volta. Um novo olhar.
+Conferir se as frases aparecem em 04_cartaz_final.png.

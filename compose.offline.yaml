@@ -1,0 +1,10 @@
+# COMPLEMENTO OPCIONAL: usa um modelo que já tenha sido baixado no cache.
+# Executar: docker compose -f compose.yaml -f compose.offline.yaml up -d --force-recreate
+# A primeira análise deve ter sido realizada antes com acesso à internet.
+# As opções abaixo impedem as bibliotecas do modelo de buscar arquivos online.
+# Elas não isolam toda a rede do container: o navegador ainda acessa a interface.
+services:
+  demonstracao:
+    environment:
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"

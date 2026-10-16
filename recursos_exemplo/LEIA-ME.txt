@@ -1,0 +1,12 @@
+RECURSOS FICTÍCIOS PARA TESTAR A APLICAÇÃO
+
+logs/: três logs simulados de prompts, do genérico ao detalhado.
+imagens/: referência e variantes para comparação visual.
+criacao/: versões de um cartaz e registros simulados; fontes/ contém SVG editável.
+licencas/: duas licenças fictícias para extração de cláusulas.
+evidencias/: arquivos para OCR, hashes e duplicatas.
+livro/: documentos usados pelo teste de compatibilidade da API textual anterior.
+
+Use a interface para enviar os arquivos. Extraia o ZIP antes de fazer upload.
+Nenhum material é prova autêntica ou licença para obras de terceiros.
+Consulte o README do projeto para execução, formatos e limites.

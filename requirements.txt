@@ -1,0 +1,3 @@
+# Biblioteca que carrega o modelo e transforma os textos em vetores comparáveis.
+# O número fixa a versão usada na demonstração; o PyTorch é instalado no Dockerfile.
+sentence-transformers==3.4.1

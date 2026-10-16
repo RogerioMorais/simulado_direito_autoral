@@ -1,0 +1,21 @@
+# Modelos baixados e relatórios gerados durante a execução.
+/cache/*
+!/cache/.gitkeep
+/resultados/*
+!/resultados/.gitkeep
+
+# Arquivos temporários de Python, editores e sistema operacional.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+!.env.example

@@ -1,0 +1,33 @@
+# RECEITA PARA EXECUTAR A DEMONSTRAÇÃO
+# Imagem: pacote com programa e dependências. Container: esse pacote em execução.
+# Nesta pasta: docker compose up --build -d
+# Depois, abrir http://localhost:8091 no navegador.
+# -d deixa o serviço rodando sem ocupar o terminal; --build prepara a imagem.
+name: investigacao-ia-demo
+services:
+  demonstracao:
+    # Constrói a imagem com o Dockerfile desta pasta.
+    build: .
+    image: investigacao-ia-demo:local
+    # Limites de recursos para o container: processadores e memória.
+    cpus: 4
+    mem_limit: 4g
+    # Configurações: local dos modelos e opções para carregá-los sem download.
+    # O valor padrão 0 permite conexão; 1 ativa o modo offline das bibliotecas.
+    environment:
+      HF_HOME: /cache/huggingface
+      HF_HUB_OFFLINE: "${HF_HUB_OFFLINE:-0}"
+      TRANSFORMERS_OFFLINE: "${TRANSFORMERS_OFFLINE:-0}"
+      TOKENIZERS_PARALLELISM: "false"
+    # Pastas compartilhadas entre computador (esquerda) e container (direita).
+    # :ro significa somente leitura; cache evita baixar o modelo novamente.
+    volumes:
+      - ./recursos_exemplo:/app/recursos_exemplo:ro
+      - ./dados:/app/dados:ro
+      - ./cache:/cache
+      - ./resultados:/app/resultados
+    # Apenas neste computador: porta 8091 encaminha para a porta interna 8080.
+    ports:
+      - "127.0.0.1:8091:8080"
+    # Não reinicia automaticamente o serviço quando ele termina.
+    restart: "no"

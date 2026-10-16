@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oficina de investigação · Propriedade intelectual</title>
+<!-- CSS cuida da aparência; a regra final adapta as colunas a telas menores. -->
+<style>
+:root{font-family:system-ui,sans-serif;color:#e9edf4;background:#111820}*{box-sizing:border-box}body{margin:0}main{max-width:1200px;margin:auto;padding:30px 24px}h1{font-size:32px}h2{margin-top:0}h3{font-size:17px}p,li{line-height:1.6}button,select{font:inherit;padding:11px 15px;border-radius:7px;border:0}button{background:#79dcc2;color:#09261f;cursor:pointer}button.secondary{background:#304559;color:#edf2f7}button:disabled{opacity:.5;cursor:wait}nav,.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}nav button[aria-selected=true]{outline:3px solid #f3d99a}.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.panel{background:#1a2532;border:1px solid #344353;border-radius:14px;padding:24px}label{display:block;font-weight:600;margin:16px 0 10px}textarea,input,select{width:100%;background:#101a25;color:#edf2f7;border:1px solid #526476;border-radius:7px;padding:12px;font:inherit}textarea{resize:vertical;line-height:1.5}a{color:#79dcc2}.small{font-size:14px;color:#bdcada}.note{background:#20313e;padding:14px 18px;border-left:3px solid #79dcc2}.score{font-size:32px;color:#79dcc2;font-weight:700}.card{border-top:1px solid #435267;padding:12px 0;overflow-wrap:anywhere}.card p{white-space:pre-wrap}.error{color:#ffb1b1}#status{min-height:26px}#previews{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}figure{margin:0;width:130px}figure img{width:130px;height:100px;object-fit:contain;background:white}figcaption{font-size:12px;overflow-wrap:anywhere}code{word-break:break-all}.version-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.version-pair figure{width:auto}.version-pair img,.change-map{width:100%;height:auto;max-height:550px;object-fit:contain}.version-pair figcaption{font-size:14px}section[hidden]{display:none}@media(max-width:780px){.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<h1>Oficina de investigação em propriedade intelectual</h1>
+<p>Quatro atividades práticas e a comparação textual já conhecida. Selecione uma atividade, carregue o exemplo ou envie seus arquivos e examine o resultado ao lado.</p>
+<p class="note">Os exemplos são fictícios. As ferramentas organizam indícios e localizam informações; a avaliação de autoria, autorização e infração depende de análise humana.</p>
+<!-- Cada botão abre uma atividade. A página nunca visita sites informados nos textos. -->
+<nav aria-label="Atividades">
+<button data-tab="imagens">1. Imagens semelhantes</button>
+<button data-tab="criacao">2. Processo de criação</button>
+<button data-tab="licenca">3. Licença de uso</button>
+<button data-tab="inventario">4. Inventário de evidências</button>
+<button data-tab="textos">Comparação de textos</button>
+</nav>
+<div class="cols"><div class="panel">
+<section id="imagens">
+<h2>Localizar imagens semelhantes</h2>
+<p>IA visual CLIP: ordena as candidatas por proximidade com uma referência. Tema parecido também pode gerar escore alto.</p>
+<label for="image-reference">Imagem de referência</label><input id="image-reference" type="file" accept=".png,.jpg,.jpeg,.webp">
+<label for="image-candidates">Adicionar imagens a comparar</label><input id="image-candidates" type="file" multiple accept=".png,.jpg,.jpeg,.webp">
+</section>
+<section id="criacao" hidden>
+<h2>Decisões humanas nos prompts</h2>
+<p>Examine o que a pessoa especificou e o que ficou aberto à IA. As mensagens da IA são separadas das instruções do usuário.</p>
+<p>Escolha um dos arquivos de exemplo no seu computador e clique em Executar atividade. Você também pode enviar seus próprios logs.</p>
+<p><a href="/recursos/logs/01_generico.txt" download>Baixar log genérico</a> · <a href="/recursos/logs/02_direcao_de_cena.txt" download>Baixar log com direção</a> · <a href="/recursos/logs/03_detalhado_iterativo.txt" download>Baixar log detalhado</a></p>
+<p class="small">Método atual: regras de busca com citações, sem interpretação por modelo de linguagem.</p>
+<p class="small">Todos os logs são simulados. Não existe pontuação de autoria ou garantia de direitos pelo detalhamento do prompt.</p>
+<label for="creation-mode">Modo de análise</label><select id="creation-mode"><option value="prompts">Logs de prompts (TXT / MD)</option><option value="imagem">Comparação de imagens</option></select>
+<label for="creation-files">Adicionar logs ou versões visuais</label><input id="creation-files" type="file" multiple accept=".txt,.md,.png,.jpg,.jpeg,.webp">
+<div id="visual-roles" hidden>
+<label for="creation-before">Versão anterior</label><select id="creation-before"></select>
+<label for="creation-after">Versão posterior</label><select id="creation-after"></select>
+<p class="small">O mapa destaca alterações de pixels, sem identificar quem editou.</p>
+<a href="/recursos/criacao/fontes/cartaz_editavel.svg" target="_blank" rel="noopener">Projeto SVG do exemplo visual</a>
+</div>
+</section>
+<section id="licenca" hidden>
+<h2>Encontrar cláusulas de uma licença</h2>
+<p>IA textual localiza trechos próximos ao uso pretendido. Uma busca por palavras também destaca regras sobre comércio, alterações, créditos e prazo.</p>
+<label for="license-choice">Exemplo fictício</label><select id="license-choice"><option value="01_comercial_com_credito.txt">Uso comercial com crédito e condições</option><option value="02_nao_comercial.txt">Uso não comercial</option></select>
+<label for="license-file">Ou carregar uma licença TXT / MD</label><input id="license-file" type="file" accept=".txt,.md">
+<label for="license-text">Texto da licença (editável)</label><textarea id="license-text" rows="10" maxlength="12000"></textarea>
+<label for="intent">Como pretende usar a obra?</label><textarea id="intent" rows="3" maxlength="1000">Quero usar a ilustração em um anúncio comercial, recortar a imagem e publicar durante seis meses no Brasil.</textarea>
+</section>
+<section id="inventario" hidden>
+<h2>Inventariar evidências</h2>
+<p>Extrai texto, lê palavras em imagens com OCR, calcula uma impressão digital SHA-256 e agrupa arquivos de bytes idênticos.</p>
+<label for="evidence-files">Adicionar arquivos ao inventário (TXT, MD ou imagens)</label><input id="evidence-files" type="file" multiple accept=".txt,.md,.png,.jpg,.jpeg,.webp">
+<p class="small">O mesmo conteúdo em PNG e JPG tem hashes diferentes. Preserve os originais: este sistema salva o relatório, não os arquivos enviados.</p>
+</section>
+<section id="textos" hidden>
+<h2>Comparar dois textos</h2>
+<label for="reference">Texto de referência (supostamente original)</label><textarea id="reference" rows="7" maxlength="2000"></textarea>
+<label for="compared">Texto a comparar (suspeita de cópia)</label><textarea id="compared" rows="7" maxlength="2000"></textarea>
+</section>
+<p id="file-help" class="small">Você pode selecionar vários arquivos de uma vez ou adicioná-los um por vez. Os anteriores permanecem na lista abaixo.</p>
+<button id="clear-files" class="secondary">Limpar lista de arquivos</button>
+<p id="file-count" class="small"></p>
+<div id="previews" aria-label="Arquivos selecionados"></div>
+<div class="actions"><button id="sample" class="secondary">Carregar exemplo da atividade</button><button id="analyze">Executar atividade</button></div>
+<p id="status" role="status" aria-live="polite"></p>
+<p class="small">Até 12 arquivos, 2 MB por arquivo e 16 milhões de pixels por imagem. TXT/MD devem estar em UTF-8. Não são aceitos PDF, vídeos ou ZIP como entrada.</p>
+</div><aside class="panel">
+<h2>Resultado</h2><div id="results" aria-live="polite"><p>Carregue um exemplo e execute a atividade.</p></div>
+<div class="actions"><button id="download" class="secondary" disabled>Baixar relatório JSON</button></div>
+<p class="small">Modelos baixados no primeiro uso. Análises executadas no container local. Relatórios incluem textos e ficam na pasta resultados/.</p>
+</aside></div>
+<p><a href="/recursos/recursos_para_aula.zip" download>Baixar todos os recursos de exemplo (ZIP)</a></p>
+</main>
+<script>
+// ESTADO: guarda os arquivos selecionados em cada atividade e o último relatório.
+// O navegador prepara as entradas; os cálculos e o OCR acontecem no servidor Python.
+const $ = id => document.getElementById(id);
+const state = {imagens: [], criacao: [], inventario: []};
+let active = 'imagens', latest = null, busy = false;
+let previewUrls = [];
+
+function invalidate() {
+  // Uma edição exige nova análise. Não exibimos resultados antigos como se fossem atuais.
+  latest = null;
+  $('download').disabled = true;
+  $('results').textContent = 'Execute a atividade para analisar as entradas atuais.';
+}
+function element(tag, text, className) {
+  // textContent impede que textos dos arquivos sejam interpretados como código HTML.
+  const node = document.createElement(tag);
+  node.textContent = text;
+  if (className) node.className = className;
+  return node;
+}
+function displayFiles() {
+  previewUrls.forEach(url => URL.revokeObjectURL(url));
+  previewUrls = [];
+  $('previews').replaceChildren();
+  const usesFiles = ['imagens', 'criacao', 'inventario'].includes(active);
+  ['clear-files', 'file-count', 'file-help'].forEach(id => $(id).hidden = !usesFiles);
+  $('file-count').textContent = usesFiles ? `${state[active].length} de 12 arquivos selecionados` : '';
+  if (active === 'criacao') {
+    const versions = state.criacao.map((file, index) => ({file, index})).filter(row => /\.(png|jpe?g|webp)$/i.test(row.file.name));
+    for (const id of ['creation-before', 'creation-after']) {
+      $(id).replaceChildren();
+      versions.forEach(({file, index}) => { const option = element('option', file.name); option.value = index; $(id).append(option); });
+    }
+    const first = versions.find(row => row.file.name === '02_base_ia_simulada.png') || versions[0];
+    const last = versions.find(row => row.file.name === '04_cartaz_final.png') || versions.at(-1);
+    if (first) $('creation-before').value = first.index;
+    if (last) $('creation-after').value = last.index;
+    $('visual-roles').hidden = $('creation-mode').value !== 'imagem';
+  }
+  (state[active] || []).forEach((file, index) => {
+    const figure = document.createElement('figure');
+    if (file.type.startsWith('image/')) {
+      const image = document.createElement('img');
+      image.alt = file.name;
+      image.src = URL.createObjectURL(file);
+      previewUrls.push(image.src);
+      figure.append(image);
+    }
+    figure.append(element('figcaption', `${active === 'imagens' && file === referenceFile ? 'Referência: ' : ''}${file.name}`));
+    const remove = element('button', 'Remover', 'secondary');
+    remove.setAttribute('aria-label', 'Remover ' + file.name);
+    remove.onclick = () => {
+      if (busy) return;
+      // Remove apenas o item escolhido, mesmo que existam arquivos de mesmo nome.
+      if (active === 'imagens') {
+        if (referenceFile && index === 0) referenceFile = null;
+        else candidateFiles.splice(index - (referenceFile ? 1 : 0), 1);
+        updateImages();
+      } else {
+        state[active].splice(index, 1);
+        invalidate(); displayFiles();
+      }
+    };
+    figure.append(remove);
+    $('previews').append(figure);
+  });
+}
+function switchTab(tab) {
+  active = tab;
+  $('sample').hidden = tab === 'criacao';
+  document.querySelectorAll('section').forEach(section => section.hidden = section.id !== tab);
+  document.querySelectorAll('[data-tab]').forEach(button => button.setAttribute('aria-selected', button.dataset.tab === tab));
+  invalidate();
+  displayFiles();
+  $('status').textContent = tab === 'criacao' ? 'Adicione um arquivo pelo botão de seleção e execute a atividade.' : 'Carregue o exemplo ou forneça suas próprias entradas.';
+}
+
+// Lê arquivos do computador somente quando o aluno os seleciona.
+let referenceFile = null, candidateFiles = [];
+function updateImages() {
+  state.imagens = [...(referenceFile ? [referenceFile] : []), ...candidateFiles];
+  invalidate(); displayFiles();
+}
+// A escolha de novas candidatas acrescenta itens; apenas a referência é substituída.
+// Não descartamos arquivos de mesmo nome: eles podem ser úteis para testar duplicatas.
+function appendFiles(current, added, limit = 12) {
+  if (current.length + added.length > limit) {
+    $('status').textContent = 'A lista ultrapassaria 12 arquivos. Remova itens antes de adicionar outros.';
+    return current;
+  }
+  if (added.some(file => file.size > 2 * 1024 * 1024)) {
+    $('status').textContent = 'Cada arquivo deve ter até 2 MB. A seleção anterior foi mantida.';
+    return current;
+  }
+  return [...current, ...added];
+}
+$('image-reference').onchange = event => {
+  const file = event.target.files[0];
+  if (file && file.size <= 2 * 1024 * 1024 && candidateFiles.length < 12) {
+    referenceFile = file; updateImages();
+  } else if (file) $('status').textContent = 'Use uma referência de até 2 MB e no máximo 11 candidatas.';
+  event.target.value = '';
+};
+$('image-candidates').onchange = event => {
+  candidateFiles = appendFiles(candidateFiles, [...event.target.files], 12 - (referenceFile ? 1 : 0));
+  event.target.value = '';
+  updateImages();
+};
+for (const [input, tab] of [['creation-files', 'criacao'], ['evidence-files', 'inventario']]) {
+  $(input).onchange = event => {
+    // Acrescenta à lista existente, em vez de substituir a seleção anterior.
+    state[tab] = appendFiles(state[tab], [...event.target.files]);
+    // Esvaziar o seletor permite escolher o mesmo arquivo novamente se necessário.
+    event.target.value = '';
+    invalidate(); displayFiles();
+  };
+}
+$('clear-files').onclick = () => {
+  if (busy) return;
+  state[active] = [];
+  if (active === 'imagens') { referenceFile = null; candidateFiles = []; }
+  invalidate(); displayFiles();
+  $('status').textContent = 'Lista limpa. Adicione seus arquivos.';
+};
+$('license-file').onchange = async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { $('status').textContent = 'Use um arquivo de até 2 MB.'; return; }
+  $('license-text').value = await file.text();
+  invalidate();
+};
+['creation-before', 'creation-after'].forEach(id => $(id).addEventListener('change', invalidate));
+['license-text', 'intent', 'reference', 'compared'].forEach(id => $(id).addEventListener('input', invalidate));
+$('license-choice').onchange = async () => {
+  invalidate();
+  $('license-text').value = '';
+  try { await loadLicense(); } catch (error) { $('status').textContent = error.message; }
+};
+
+$('creation-mode').onchange = () => { invalidate(); displayFiles(); };
+
+async function resource(path) {
+  const response = await fetch('/recursos/' + path.split('/').map(encodeURIComponent).join('/'));
+  if (!response.ok) throw Error('Não foi possível carregar o recurso.');
+  return response;
+}
+async function loadLicense() {
+  $('license-text').value = await (await resource('licencas/' + $('license-choice').value)).text();
+  invalidate();
+}
+async function sample() {
+  // Os exemplos vêm da pasta distribuída com o projeto; não são coletados na internet.
+  if (active === 'licenca') { await loadLicense(); return; }
+  if (active === 'textos') {
+    const response = await fetch('/api/cenario');
+    if (!response.ok) throw Error('Falha ao carregar os textos.');
+    const data = await response.json();
+    $('reference').value = data.referencia;
+    $('compared').value = data.texto_comparado;
+  } else {
+    const response = await fetch('/api/recursos');
+    if (!response.ok) throw Error('Falha ao listar recursos.');
+    const manifest = await response.json();
+    const folder = active === 'inventario' ? 'evidencias' : active;
+    const paths = manifest[folder];
+    state[active] = await Promise.all(paths.map(async path => {
+      const result = await resource(path);
+      return new File([await result.blob()], path.split('/').pop(), {type: result.headers.get('Content-Type')});
+    }));
+    if (active === 'imagens') {
+      referenceFile = state.imagens[0]; candidateFiles = state.imagens.slice(1);
+      $('image-reference').value = ''; $('image-candidates').value = '';
+    } else {
+      $(active === 'criacao' ? 'creation-files' : 'evidence-files').value = '';
+    }
+  }
+  invalidate(); displayFiles();
+}
+function setBusy(value) {
+  busy = value;
+  document.querySelectorAll('button,input,textarea,select').forEach(node => node.disabled = value);
+  $('download').disabled = value || !latest;
+}
+$('sample').onclick = async () => {
+  setBusy(true);
+  try { await sample(); $('status').textContent = 'Exemplo carregado. Execute a atividade.'; }
+  catch (error) { $('status').textContent = error.message; }
+  finally { setBusy(false); }
+};
+
+function encodeFile(file) {
+  // base64 representa os bytes do arquivo como texto para o transporte em JSON.
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve({nome: file.name, conteudo: reader.result.split(',')[1]});
+    reader.onerror = () => reject(Error('Falha ao ler ' + file.name));
+    reader.readAsDataURL(file);
+  });
+}
+function card(title, lines) {
+  const article = element('article', '', 'card');
+  article.append(element('h3', title));
+  lines.forEach(line => article.append(element('p', line)));
+  $('results').append(article);
+}
+function render(data) {
+  // Cada atividade tem sua apresentação; o JSON completo fica disponível para download.
+  $('results').replaceChildren();
+  if (active === 'imagens') {
+    card('Referência', [data.referencia]);
+    data.resultados.forEach((row, i) => card(`${i + 1}. ${row.arquivo}`, [
+      `Similaridade: ${row.similaridade.toFixed(4)}`, row.identica_em_bytes ? 'Bytes idênticos aos da referência.' : 'Bytes diferentes da referência.'
+    ]));
+  } else if (active === 'criacao') {
+    card('Resposta à investigação', [data.resposta]);
+    if (data.analise_logs) {
+      data.analise_logs.forEach(log => {
+        card(log.arquivo, [log.leitura, `${log.mensagens_ia_separadas} mensagem(ns) da IA separada(s) da análise das decisões humanas.`]);
+        if (log.aviso_formato) card('Confira o formato', [log.aviso_formato]);
+        log.mensagens_humanas.forEach(turn => {
+          card(`Mensagem ${turn.mensagem} — usuário`, [turn.texto_usuario]);
+          turn.decisoes.forEach(decision => card(decision.tema, decision.trechos));
+          if (log.mensagens_humanas.length > 1) card('Instruções novas nesta interação (comparação literal)', turn.instrucoes_novas);
+          if (turn.delegacoes_expressas.length) card('Escolhas expressamente delegadas', turn.delegacoes_expressas);
+        });
+        card('Aspectos sem detalhamento localizado', [log.aspectos_sem_detalhe_localizado.join('; ') || 'Todos os temas procurados tiveram menção. Isso não significa que todas as decisões foram humanas.']);
+      });
+    }
+    const comparison = data.comparacao;
+    if (comparison) {
+      const pair = element('div', '', 'version-pair');
+      for (const [label, source] of [[comparison.antes, comparison.imagem_antes], [comparison.depois, comparison.imagem_depois]]) {
+        const figure = document.createElement('figure');
+        const image = document.createElement('img'); image.src = source; image.alt = label;
+        figure.append(element('figcaption', label), image); pair.append(figure);
+      }
+      $('results').append(pair);
+      if (comparison.mapa_alteracoes) {
+        const map = document.createElement('img'); map.src = comparison.mapa_alteracoes;
+        map.alt = 'Mapa com pixels alterados destacados em rosa'; map.className = 'change-map';
+        $('results').append(element('h3', 'Onde houve mudança?'), map);
+        card('Diferenças observadas', [
+          `${comparison.pixels_alterados} pixels alterados de ${comparison.pixels_totais} examinados (limiar: ${comparison.limiar_por_canal} por canal).`,
+          'Essa contagem não é uma porcentagem de autoria ou de participação humana.'
+        ]);
+      }
+      card('Como conferir', [comparison.aviso]);
+    } else if (data.modo === 'imagem') card('Confronto visual', ['Adicione pelo menos duas imagens para comparar versões.']);
+    card('Perguntas da investigação', data.perguntas);
+    data.cronologia.forEach(row => card(`${row.data_declarada || 'Sem data'} · ${row.arquivo}`, [
+      ...row.indicios.map(item => `${item.categoria}: ${item.trecho}`),
+      ...(row.indicios.length ? [] : ['Sem palavras das categorias procuradas. Leia o registro integral.'])
+    ]));
+  } else if (active === 'licenca') {
+    card('Trechos próximos ao uso pretendido (IA)', data.trechos_por_proximidade.map(row => `${row.similaridade.toFixed(4)} · ${row.trecho}`));
+    data.clausulas.forEach(row => card(`${row.tema} (busca por palavras)`, row.trechos.length ? row.trechos : ['Sem destaque localizado; confira a licença integral.']));
+  } else if (active === 'inventario') {
+    data.arquivos.forEach(row => card(`${row.item}. ${row.arquivo}`, [
+      `${row.tamanho_bytes} bytes · ${row.extracao}`, `SHA-256: ${row.sha256}`,
+      row.texto_extraido || 'Nenhum texto reconhecido.', ...(row.texto_limitado ? ['Exibição limitada a 16.000 caracteres.'] : [])
+    ]));
+    card('Grupos de bytes idênticos', data.duplicatas_identicas.length ? data.duplicatas_identicas.map(group => group.map(item => `${item.item}. ${item.arquivo}`).join(' = ')) : ['Nenhum grupo encontrado.']);
+  } else {
+    $('results').append(element('div', data.similaridade.toFixed(4), 'score'));
+    card('Como ler o escore', ['Quanto mais próximo de 1, maior a proximidade de sentido. Não é porcentagem de cópia nem prova de plágio.']);
+  }
+  card('Limites e conferência humana', [data.limite || 'A comparação não verifica autoria, cronologia ou autorização.']);
+  if (data.modelo) card('Modelo utilizado', [data.modelo]);
+}
+$('analyze').onclick = async () => {
+  if (busy) return;
+  invalidate(); setBusy(true);
+  $('status').className = '';
+  $('status').textContent = 'Processando… No primeiro uso, o modelo da atividade pode precisar ser baixado. Aguarde.';
+  try {
+    let payload;
+    if (active === 'textos') payload = {referencia: $('reference').value, texto_comparado: $('compared').value};
+    else if (active === 'licenca') payload = {licenca: $('license-text').value, uso: $('intent').value};
+    else {
+      if (active === 'imagens' && !referenceFile) throw Error('Selecione a imagem de referência.');
+      let files = state[active];
+      if (!files.length || files.length > 12) throw Error('Use entre 1 e 12 arquivos.');
+      if (files.some(file => file.size > 2 * 1024 * 1024)) throw Error('Cada arquivo deve ter até 2 MB.');
+      payload = {arquivos: await Promise.all(files.map(encodeFile))};
+      if (active === 'criacao') {
+        payload.modo = $('creation-mode').value;
+      }
+      if (active === 'criacao' && payload.modo === 'imagem' && $('creation-before').value !== '') {
+        payload.antes = Number($('creation-before').value);
+        payload.depois = Number($('creation-after').value);
+      }
+    }
+    const route = active === 'textos' ? 'analisar' : active;
+    const response = await fetch('/api/' + route, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+    const data = await response.json();
+    if (!response.ok) throw Error(data.erro || 'Falha no processamento.');
+    latest = data; render(data);
+    $('status').textContent = 'Atividade concluída. Confira o resultado e discuta o que ainda falta verificar.';
+  } catch (error) {
+    $('status').className = 'error'; $('status').textContent = error.message;
+  } finally { setBusy(false); }
+};
+$('download').onclick = () => {
+  if (!latest) return;
+  const url = URL.createObjectURL(new Blob([JSON.stringify(latest, null, 2)], {type:'application/json'}));
+  const link = document.createElement('a');
+  link.href = url; link.download = 'relatorio-' + active + '.json'; link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
+document.querySelectorAll('[data-tab]').forEach(button => button.onclick = () => switchTab(button.dataset.tab));
+switchTab('imagens');
+</script></body></html>

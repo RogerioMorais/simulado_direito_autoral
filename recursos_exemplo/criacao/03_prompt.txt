@@ -1,0 +1,4 @@
+Data declarada: 2026-03-03
+Prompt do cenário: produzir uma paisagem de porto, montanhas, água azul e sol, sem pessoas nem letras.
+Arquivo representando a saída: 02_base_ia_simulada.png.
+Não há execução de modelo, histórico de serviço ou resposta original de IA neste pacote.

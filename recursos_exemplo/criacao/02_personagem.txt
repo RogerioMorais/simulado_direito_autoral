@@ -1,0 +1,5 @@
+Data declarada: 2026-03-02
+Esboço: 01_esboco_simulado.png. Planeja título no alto e personagem ao centro.
+Personagem: figura de casaco amarelo acrescentada em 03_versao_personagem.png.
+Compare com 02_base_ia_simulada.png: a paisagem não contém essa figura.
+No cenário, o desenho é atribuído à pessoa; os arquivos reais foram feitos por código.

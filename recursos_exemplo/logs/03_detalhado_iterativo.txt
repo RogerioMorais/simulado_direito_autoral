@@ -1,0 +1,22 @@
+SIMULAÇÃO DIDÁTICA — papéis, mensagens e decisões são fictícios.
+USUÁRIO:
+A cena se passa no drive-in às 23 horas, sob chuva, com um letreiro azul refletido no asfalto.
+Lia está no banco traseiro; Caio dirige e Beto ocupa o banco do passageiro do carro vermelho.
+Plano aberto fixo durante quatro segundos: o carro para à esquerda do quadro.
+Lia aperta uma carta e desvia o olhar quando Beto bate no vidro.
+Corte para plano médio dos rapazes; depois close do atendente, que percebe o desconforto de Lia.
+Caio: “Dois duplos. E rápido.”
+Atendente: “E para você, moça?”
+Lia: “Só preciso de um minuto.”
+Sem trilha; o som é de chuva e do motor em marcha lenta.
+Deixe os detalhes das roupas a critério da IA.
+IA:
+Proponho que o atendente entregue o pedido e que os três saiam sorrindo.
+USUÁRIO:
+Não use esse desfecho: o atendente não entrega o pedido ainda.
+Atendente: “O caixa travou. Vou precisar que alguém venha até aqui.”
+Lia abaixa o vidro e olha diretamente para o atendente.
+Mantenha o close por três segundos e corte para a mão de Lia soltando a carta.
+Não revele o conteúdo da carta nesta cena.
+IA:
+Vou incorporar a substituição do desfecho e preservar o conteúdo da carta em aberto.
