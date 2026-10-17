@@ -11,7 +11,7 @@ services:
     image: investigacao-ia-demo:local
     # Limites de recursos para o container: processadores e memória.
     cpus: 4
-    mem_limit: 4g
+    mem_limit: 8g
     # Configurações: local dos modelos e opções para carregá-los sem download.
     # O valor padrão 0 permite conexão; 1 ativa o modo offline das bibliotecas.
     environment:

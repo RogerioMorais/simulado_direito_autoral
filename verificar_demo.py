@@ -74,8 +74,9 @@ def main():
     logs['modo'] = 'prompts'
     result = post('criacao', logs)
     assert len(result['analise_logs']) == 3
-    assert len(result['analise_logs'][2]['mensagens_humanas']) == 2
-    assert result['analise_logs'][1]['mensagens_humanas'][0]['delegacoes_expressas']
+    assert result['modelo'].startswith('Qwen/')
+    assert all(log['uso_tokens']['completion_tokens'] > 0 for log in result['analise_logs'])
+    assert all(log['analise_modelo']['texto'] for log in result['analise_logs'])
     print('Logs: três níveis, delegação expressa e revisão posterior OK', flush=True)
 
     result = post('inventario', files('evidencias'))

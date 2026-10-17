@@ -11,6 +11,12 @@ RUN pip install --no-cache-dir torch==2.6.0 --index-url https://download.pytorch
 # Copia a lista de dependências antes de instalar as bibliotecas da aplicação.
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
+# Motor CPU para executar o modelo de linguagem GGUF do Hugging Face.
+# Compila para o Linux da imagem; evita dependências incompatíveis de wheels externas.
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential cmake ninja-build \
+    && CMAKE_ARGS="-DGGML_NATIVE=OFF -DGGML_OPENMP=OFF" CMAKE_BUILD_PARALLEL_LEVEL=4 \
+       pip install --no-cache-dir --no-binary=llama-cpp-python llama-cpp-python==0.3.19 \
+    && rm -rf /var/lib/apt/lists/*
 # Copia o programa, os exemplos e a interface para dentro da imagem.
 COPY demo.py atividades.py analise_prompts.py autoria_textual.py gerar_recursos.py gerar_cartaz.py gerar_livro.py /app/
 COPY recursos_exemplo /app/recursos_exemplo

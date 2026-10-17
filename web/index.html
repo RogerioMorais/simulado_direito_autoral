@@ -32,7 +32,7 @@
 <p>Examine o que a pessoa especificou e o que ficou aberto à IA. As mensagens da IA são separadas das instruções do usuário.</p>
 <p>Escolha um dos arquivos de exemplo no seu computador e clique em Executar atividade. Você também pode enviar seus próprios logs.</p>
 <p><a href="/recursos/logs/01_generico.txt" download>Baixar log genérico</a> · <a href="/recursos/logs/02_direcao_de_cena.txt" download>Baixar log com direção</a> · <a href="/recursos/logs/03_detalhado_iterativo.txt" download>Baixar log detalhado</a></p>
-<p class="small">Método atual: regras de busca com citações, sem interpretação por modelo de linguagem.</p>
+<p class="small">Modelo local Qwen do Hugging Face: interpreta o log e produz uma análise com citações. O primeiro uso baixa o modelo; o processamento pode levar alguns minutos.</p>
 <p class="small">Todos os logs são simulados. Não existe pontuação de autoria ou garantia de direitos pelo detalhamento do prompt.</p>
 <label for="creation-mode">Modo de análise</label><select id="creation-mode"><option value="prompts">Logs de prompts (TXT / MD)</option><option value="imagem">Comparação de imagens</option></select>
 <label for="creation-files">Adicionar logs ou versões visuais</label><input id="creation-files" type="file" multiple accept=".txt,.md,.png,.jpg,.jpeg,.webp">
@@ -294,17 +294,14 @@ function render(data) {
     card('Resposta à investigação', [data.resposta]);
     if (data.analise_logs) {
       data.analise_logs.forEach(log => {
-        card(log.arquivo, [log.leitura, `${log.mensagens_ia_separadas} mensagem(ns) da IA separada(s) da análise das decisões humanas.`]);
+        card(log.arquivo + ' — análise gerada pelo Qwen', [log.analise_modelo.texto]);
         if (log.aviso_formato) card('Confira o formato', [log.aviso_formato]);
-        log.mensagens_humanas.forEach(turn => {
-          card(`Mensagem ${turn.mensagem} — usuário`, [turn.texto_usuario]);
-          turn.decisoes.forEach(decision => card(decision.tema, decision.trechos));
-          if (log.mensagens_humanas.length > 1) card('Instruções novas nesta interação (comparação literal)', turn.instrucoes_novas);
-          if (turn.delegacoes_expressas.length) card('Escolhas expressamente delegadas', turn.delegacoes_expressas);
-        });
-        card('Aspectos sem detalhamento localizado', [log.aspectos_sem_detalhe_localizado.join('; ') || 'Todos os temas procurados tiveram menção. Isso não significa que todas as decisões foram humanas.']);
+        log.citacoes.forEach(item => card('Conferência de citação', [item.trecho,
+          item.citacao_conferida ? 'Trecho localizado literalmente em mensagem do usuário.' : 'ATENÇÃO: trecho não localizado literalmente em mensagem do usuário; confira o log.']));
+        if (!log.citacoes.length) card('Conferência de citações', ['O modelo não forneceu citações delimitadas por aspas que pudessem ser conferidas automaticamente. Compare a resposta com o log original.']);
       });
     }
+
     const comparison = data.comparacao;
     if (comparison) {
       const pair = element('div', '', 'version-pair');

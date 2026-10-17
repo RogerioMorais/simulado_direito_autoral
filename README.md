@@ -4,7 +4,7 @@ Aplicação web em Python para experimentar automações relacionadas à investi
 
 ## Executar
 
-Requisitos: Docker com Docker Compose, acesso à internet para preparar a imagem e baixar os modelos, alguns GB de disco e memória disponível para um container de até 4 GB. Não exige chave de API nem placa de vídeo.
+Requisitos: Docker com Docker Compose, acesso à internet para preparar a imagem e baixar os modelos, alguns GB de disco e memória disponível para um container de até 8 GB. Não exige chave de API nem placa de vídeo.
 
 No terminal, dentro da pasta deste repositório:
 
@@ -29,7 +29,7 @@ docker compose down
 | Atividade | Entrada | Resultado e método |
 |---|---|---|
 | Imagens semelhantes | Referência e candidatas PNG/JPG/WEBP | Ordenação por similaridade com CLIP. |
-| Processo de criação — logs | Logs TXT/MD enviados pelo usuário | Citações de decisões, delegações e aspectos sem detalhe localizado, por regras de padrões. Não utiliza modelo de linguagem. |
+| Processo de criação — logs | Logs TXT/MD enviados pelo usuário | Análise e citações geradas por Qwen3-4B, modelo de linguagem Hugging Face executado localmente. |
 | Processo de criação — imagens | Versões visuais e registros | Imagens lado a lado, mapa matemático de pixels alterados e cronologia auxiliar. |
 | Licença de uso | Licença e uso pretendido | Trechos próximos ao pedido com MiniLM e destaques por palavras. |
 | Inventário de evidências | TXT/MD e imagens | Texto extraído, OCR, hashes SHA-256 e agrupamento de bytes idênticos. |
@@ -59,7 +59,7 @@ USUÁRIO:
 Modifique o desfecho...
 ```
 
-Sem marcadores, o arquivo inteiro é tratado como prompt fornecido, com aviso. Os papéis são declarações do arquivo, sem autenticação. As regras podem deixar decisões sem destaque ou perder contexto; confira o log integral. Nas interações seguintes, as instruções novas são localizadas por comparação literal.
+Sem marcadores, o arquivo inteiro é tratado como prompt fornecido, com aviso. Os papéis são declarações do arquivo, sem autenticação. O modelo interpreta decisões, delegações e revisões posteriores. Pode errar; confira o log integral. As citações são conferidas literalmente nas mensagens do usuário, mas isso não valida automaticamente a interpretação.
 
 ### Comparações de imagens
 
@@ -81,7 +81,7 @@ Todos os materiais são simulados. Os desenhos e versões visuais foram feitos p
 
 Os relatórios JSON são gravados em `resultados/` e podem ser baixados pela tela. Incluem textos processados e podem conter informações fornecidas pelo usuário. `cache/` guarda os modelos. Ambos estão excluídos do versionamento, exceto pelos arquivos vazios `.gitkeep`.
 
-Após executar com sucesso as atividades CLIP e MiniLM online, pode-se forçar o uso do cache:
+Após executar com sucesso as atividades Qwen (logs), CLIP e MiniLM online, pode-se forçar o uso do cache:
 
 ```bash
 docker compose -f compose.yaml -f compose.offline.yaml up -d --force-recreate
@@ -89,11 +89,19 @@ docker compose -f compose.yaml -f compose.offline.yaml up -d --force-recreate
 
 O modo impede downloads pelas bibliotecas de modelos, mas não isola toda a rede do container. Se faltar um arquivo do modelo, a atividade falha. Para voltar: `docker compose up -d --force-recreate`.
 
+## Modelo de linguagem dos logs
+
+[Qwen/Qwen3-4B-GGUF](https://huggingface.co/Qwen/Qwen3-4B-GGUF), arquivo `Qwen3-4B-Q4_K_M.gguf`, revisão fixa registrada em `analise_prompts.py`. Download inicial de aproximadamente 2,5 GB, em cache. O motor `llama-cpp-python==0.3.19` roda em CPU no container. O Dockerfile compila o motor para CPU dentro do Linux da imagem; o build inicial pode demorar alguns minutos.
+
+A geração usa os parâmetros recomendados pelo modelo para o modo direto (temperature 0,7; top_p 0,8; top_k 20; min_p 0; presence_penalty 1,5). O modo `/no_think` solicita uma resposta direta, sem uma etapa longa de raciocínio interno. O log entra nas mensagens da chamada `llm.create_chat_completion`; não há classificação por `TOPICS` nem resposta substituta por regras se o modelo falhar. O resultado inclui uma resposta em linguagem natural sobre decisões com citações, espaço deixado à IA, revisões e limitações. O relatório registra modelo, revisão, texto recebido, resposta original e contagem de tokens. Inferência pode levar alguns minutos em CPU, especialmente com vários logs.
+
+A janela local é de 8.192 tokens, incluindo instruções e resposta. Um arquivo com até 20.000 caracteres ainda pode exceder essa janela; nesse caso a aplicação pede um log menor, sem truncá-lo silenciosamente. A resposta é limitada a 1.000 tokens; se esse limite interromper a geração, a aplicação informa a falha. O modelo não determina autoria jurídica e pode inventar interpretações ou citações. A conferência literal ajuda a localizar erros, sem autenticar os papéis declarados no log.
+
 ## Estrutura do código
 
 - `demo.py`: servidor HTTP, modelos e relatórios.
 - `atividades.py`: comparação visual, licenças, inventário e encaminhamento da análise de criação.
-- `analise_prompts.py`: leitura de logs por padrões com citações.
+- `analise_prompts.py`: download, carregamento e inferência local do modelo Qwen; a chamada `llm.create_chat_completion(...)` recebe o log completo.
 - `autoria_textual.py`: comparação de versões textuais mantida para compatibilidade da API.
 - `web/index.html`: interface e upload de arquivos.
 - `dados/`: cenário textual inicial.
